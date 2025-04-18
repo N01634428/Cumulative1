@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Cumulative1.Models.Teacher>
+
+<h2>Teachers List</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <p>No teachers available.</p>
+}
+else
+{
+    foreach (var teacher in Model)
+    {
+        <div>
+            <a href="@Url.Action("Show", "Teachers_page", new { id = teacher.TeacherId })">
+                @teacher.TeacherId - @teacher.TeacherFName @teacher.TeacherLName
+            </a>
+        </div>
+    }
+}
