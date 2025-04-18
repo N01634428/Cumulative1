@@ -2,3 +2,6 @@
 
 <h1>@Model.TeacherFName @Model.TeacherId</h1>
 <h1>@Model.TeacherFName @Model.TeacherLName</h1>
+<p>
+    <a class="btn btn-warning" asp-controller="TeacherPage" asp-action="Edit" asp-route-id="@Model.TeacherId">Edit</a>
+</p>

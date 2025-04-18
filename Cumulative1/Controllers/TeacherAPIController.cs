@@ -1,6 +1,7 @@
 ﻿using Cumulative1.Models;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -37,7 +38,9 @@ public class TeacherAPIController : ControllerBase
                     {
                         TeacherId = Convert.ToInt32(ResultSet["teacherid"]),
                         TeacherFName = ResultSet["teacherfname"].ToString(),
-                        TeacherLName = ResultSet["teacherlname"].ToString()
+                        TeacherLName = ResultSet["teacherlname"].ToString(),
+                        Salary = ResultSet["salary"] == DBNull.Value ? 0 : Convert.ToDecimal(ResultSet["salary"]),
+
                     };
 
                     teacherList.Add(teacher);
@@ -72,6 +75,8 @@ public class TeacherAPIController : ControllerBase
                     teacher.TeacherId = Convert.ToInt32(ResultSet["teacherid"]);
                     teacher.TeacherFName = ResultSet["teacherfname"].ToString();
                     teacher.TeacherLName = ResultSet["teacherlname"].ToString();
+                    teacher.Salary = ResultSet["salary"] == DBNull.Value ? 0 : Convert.ToDecimal(ResultSet["salary"]);
+                    
                 }
             }
         }
@@ -101,6 +106,8 @@ public class TeacherAPIController : ControllerBase
             command.CommandText = "INSERT INTO teachers (teacherfname, teacherlname) VALUES (@fname, @lname)";
             command.Parameters.AddWithValue("@fname", newTeacher.TeacherFName);
             command.Parameters.AddWithValue("@lname", newTeacher.TeacherLName);
+            command.Parameters.AddWithValue("@salary", newTeacher.Salary);
+            
 
             command.ExecuteNonQuery();
         }
@@ -137,4 +144,38 @@ public class TeacherAPIController : ControllerBase
             }
         }
     }
+    /// <summary>
+    /// Updates an existing teacher's first and last name in the database
+    /// </summary>
+    /// <param name="id">Teacher ID</param>
+    /// <param name="updatedTeacher">Updated teacher object</param>
+    /// <returns>Result of the update operation</returns>
+    [HttpPost("UpdateTeacher/{id}")]
+    public IActionResult UpdateTeacher(int id, [FromBody] Teacher updatedTeacher)
+    {
+        using (MySqlConnection conn = _context.AccessDatabase())
+        {
+            conn.Open();
+            MySqlCommand cmd = conn.CreateCommand();
+
+            cmd.CommandText = "UPDATE teachers SET teacherfname = @fname, teacherlname = @lname, salary = @salary  WHERE teacherid = @id";
+            cmd.Parameters.AddWithValue("@fname", updatedTeacher.TeacherFName);
+            cmd.Parameters.AddWithValue("@lname", updatedTeacher.TeacherLName);
+            cmd.Parameters.AddWithValue("@salary", updatedTeacher.Salary);
+           
+            cmd.Parameters.AddWithValue("@id", id);
+
+            int rowsAffected = cmd.ExecuteNonQuery();
+
+            if (rowsAffected > 0)
+            {
+                return Ok("Teacher updated successfully.");
+            }
+            else
+            {
+                return NotFound("Teacher not found.");
+            }
+        }
+    }
+
 }

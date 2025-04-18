@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Cumulative1.Models.Course>
+
+<h2>Course List</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <p>No courses available.</p>
+}
+else
+{
+    foreach (var course in Model)
+    {
+        <div>
+            <strong>@course.CourseCode</strong> - @course.CourseName
+            <br />
+            Start: @course.StartDate.ToShortDateString() | Finish: @course.FinishDate.ToShortDateString()
+        </div>
+        <hr />
+    }
+}

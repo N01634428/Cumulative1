@@ -56,4 +56,18 @@ public class TeacherPageController : Controller
         _api.DeleteTeacher(id);  
         return RedirectToAction("List");  
     }
+    [HttpGet]
+    public IActionResult Edit(int id)
+    {
+        Teacher teacherToEdit = _api.FindTeacherID(id);
+        return View(teacherToEdit);
+    }
+
+    [HttpPost]
+    public IActionResult Edit(int id, Teacher updatedTeacher)
+    {
+        _api.UpdateTeacher(id, updatedTeacher);
+        return RedirectToAction("List");
+    }
+
 }

@@ -1,0 +1,18 @@
+﻿@model IEnumerable<Cumulative1.Models.Student>
+
+<h2>Student List</h2>
+
+@if (!Model.Any())
+{
+    <p>No students found.</p>
+}
+else
+{
+    foreach (var student in Model)
+    {
+        <div>
+            <strong>@student.StudentNumber</strong> - @student.StudentFName @student.StudentLName
+        </div>
+        <hr />
+    }
+}

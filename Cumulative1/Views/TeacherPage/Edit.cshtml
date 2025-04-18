@@ -1,0 +1,24 @@
+﻿@model Cumulative1.Models.Teacher
+
+<h2>Edit Teacher</h2>
+
+<form asp-action="Edit" asp-controller="TeacherPage" method="post">
+    <input type="hidden" name="TeacherId" value="@Model.TeacherId" />
+
+    <div class="form-group">
+        <label for="TeacherFName">First Name</label>
+        <input type="text" class="form-control" name="TeacherFName" value="@Model.TeacherFName" required />
+    </div>
+
+    <div class="form-group">
+        <label for="TeacherLName">Last Name</label>
+        <input type="text" class="form-control" name="TeacherLName" value="@Model.TeacherLName" required />
+    </div>
+    
+    <div class="form-group">
+        <label for="Salary">Salary</label>
+        <input type="number" id="Salary" name="Salary" class="form-control" value="@Model.Salary" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>

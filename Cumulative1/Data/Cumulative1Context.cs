@@ -4,7 +4,7 @@
 using Microsoft.EntityFrameworkCore;
 using Cumulative1.Models;
 
-namespace Cumilative1.Data
+namespace Cumulative1.Data
 {
     public class Cumulative1Context : DbContext
     {
