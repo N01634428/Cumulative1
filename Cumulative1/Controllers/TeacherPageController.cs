@@ -10,23 +10,50 @@ public class TeacherPageController : Controller
         _api = api;
     }
 
+    
     [HttpGet]
     public IActionResult List()
     {
-        
         List<Teacher> teacherList = _api.ListAllTeacher(); 
-
-        
         return View(teacherList);  
     }
-
     [HttpGet]
     public IActionResult Show(int id)
     {
-        
-        Teacher selectedTeacher = _api.FindTeacherID(id);
+        Teacher selectedTeacher = _api.FindTeacherID(id);  
+        return View(selectedTeacher);  
+    }
 
-        
-        return View(selectedTeacher); 
+   
+    [HttpGet]
+    public IActionResult Add()
+    {
+        return View(); 
+    }
+
+    
+    [HttpPost]
+    public IActionResult Add(Teacher teacher)
+    {
+        if (ModelState.IsValid)
+        {
+            _api.AddTeacher(teacher);  
+            return RedirectToAction("List");  
+        }
+        return View(teacher); 
+    }
+
+    [HttpGet]
+    public IActionResult DeleteConfirm(int id)
+    {
+        Teacher teacherToDelete = _api.FindTeacherID(id);  
+        return View(teacherToDelete);  
+    }
+    [HttpPost]
+    [ActionName("DeleteConfirm")]  
+    public IActionResult DeleteTeacher(int id)
+    {
+        _api.DeleteTeacher(id);  
+        return RedirectToAction("List");  
     }
 }

@@ -1,0 +1,8 @@
+﻿@model Cumulative1.Models.Teacher
+
+<h2>Are you sure you want to delete @Model.TeacherFName @Model.TeacherLName?</h2>
+
+<form method="post">
+    <button type="submit">Yes, Delete</button>
+    <a href="@Url.Action("List", "TeacherPage")">Cancel</a>
+</form>

@@ -11,9 +11,13 @@ else
     foreach (var teacher in Model)
     {
         <div>
-            <a href="@Url.Action("Show", "Teachers_page", new { id = teacher.TeacherId })">
+            <a href="@Url.Action("Show", "TeacherPage", new { id = teacher.TeacherId })">
                 @teacher.TeacherId - @teacher.TeacherFName @teacher.TeacherLName
             </a>
+            |
+            <a href="@Url.Action("DeleteConfirm", "TeacherPage", new { id = teacher.TeacherId })">Delete</a>
         </div>
     }
 }
+
+<a href="@Url.Action("Add", "TeacherPage")">Add New Teacher</a>
